@@ -52,6 +52,28 @@ public class Address {
         return zipCode;
     }
 
+    public boolean compare(Address address){
+        if (!address.getStreet().equals(street)){
+            return false;
+        }
+        if (!address.getName().equals(name)){
+            return false;
+        }
+        if (!address.getApartmentNum().equals(apartmentNum)){
+            return false;
+        }
+        if (!address.getCity().equals(city)){
+            return false;
+        }
+        if (!address.getState().equals(state)){
+            return false;
+        }
+        if (!(address.getZipCode() == zipCode)){
+            return false;
+        }
+        return true;
+    }
+
     public String toString(){
         return street + " " + name + apartmentNum + ", " + city + ", " + state + " " + zipCode;
     }
