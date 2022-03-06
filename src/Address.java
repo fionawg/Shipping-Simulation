@@ -4,9 +4,9 @@ public class Address {
     private String apartmentNum; //optional
     private String city;
     private String state;
-    private int zipCode;
+    private String zipCode;
 
-    public Address(String street, String name, String apartmentNum,String city, String state, int zipCode){
+    public Address(String street, String name, String apartmentNum, String city, String state, String zipCode){
         this.street = street;
         this.name = name;
         this.apartmentNum = apartmentNum;
@@ -16,16 +16,31 @@ public class Address {
     }
 
     public Address(Address x){
-        street = x.street;
-        name = x.name;
-        apartmentNum = x.apartmentNum;
-        city = x.city;
-        state = x.state;
-        zipCode = x.zipCode;
+        street = x.getStreet();
+        name = x.getName();
+        apartmentNum = x.getApartmentNum();
+        city = x.getCity();
+        state = x.getState();
+        zipCode = x.getZipCode();
     }
 
     public Address(String address){
-
+        String[] split = address.split(",");
+        city = split[1].substring(1);
+        state = split[2].substring(1, 3);
+        zipCode = split[2].substring(4);
+        String firstPart = split[0];
+        int count = firstPart.indexOf(" ");
+        street = firstPart.substring(0, count);
+        String firstPartLower = firstPart.toLowerCase();
+        if (firstPartLower.contains("apt")) {
+            int count2 = firstPartLower.indexOf("apt");
+            apartmentNum = firstPart.substring(count2);
+            name = firstPart.substring(count + 1, count2 - 1);
+        }
+        else{
+            name = firstPart.substring(count + 1);
+        }
     }
 
     public String getStreet(){
@@ -48,33 +63,14 @@ public class Address {
         return state;
     }
 
-    public int getZipCode(){
+    public String getZipCode(){
         return zipCode;
     }
 
-    public boolean compare(Address address){
-        if (!address.getStreet().equals(street)){
-            return false;
-        }
-        if (!address.getName().equals(name)){
-            return false;
-        }
-        if (!address.getApartmentNum().equals(apartmentNum)){
-            return false;
-        }
-        if (!address.getCity().equals(city)){
-            return false;
-        }
-        if (!address.getState().equals(state)){
-            return false;
-        }
-        if (!(address.getZipCode() == zipCode)){
-            return false;
-        }
-        return true;
-    }
-
     public String toString(){
-        return street + " " + name + apartmentNum + ", " + city + ", " + state + " " + zipCode;
+        if (apartmentNum != null){
+            return street + " " + name + " " + apartmentNum + ", " + city + ", " + state + " " + zipCode;
+        }
+        return street + " " + name + ", " + city + ", " + state + " " + zipCode;
     }
 }
